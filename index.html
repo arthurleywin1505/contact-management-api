@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Manager</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    form { margin-bottom: 30px; }
+    input { margin: 5px; padding: 8px; width: 300px; }
+    button { padding: 8px 16px; }
+  </style>
+</head>
+<body>
+  <h1>Contact Manager</h1>
+  <h2>Register Contact</h2>
+  <form id="contactForm">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="text" id="phone" placeholder="Phone Number" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h2>User Login</h2>
+  <form id="loginForm">
+    <input type="email" id="loginEmail" placeholder="Email" required><br>
+    <input type="password" id="loginPassword" placeholder="Password" required><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      const res = await fetch('http://localhost:3000/api/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone })
+      });
+
+      const data = await res.json();
+      alert('Contact saved: ' + JSON.stringify(data));
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      // Replace with your actual login endpoint
+      const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+      alert('Login response: ' + JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>
